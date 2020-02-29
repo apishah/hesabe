@@ -1,13 +1,96 @@
+{% load i18n %}
+{%  load option %}
+{% show_credential as credential %}
 <!-- <!DOCTYPE html> -->
 <html>
 <head>
     <title>test</title>
 </head>
 <body>
-<a href="/knet">KNET Payment</a>
-<a href="/mpgs">MPGS Payment</a>
-               
+	
+	<form method="post" > 
+		
+			<input type="text"  hidden name="variable1" value = {{variable1}}>
+			<input type="text" hidden  name="variable2" value = {{variable1}}>
+			<input type="text" hidden name="variable3" value = {{variable1}}>
+			<input type="text" hidden name="variable4" value = {{variable1}}>
+			<input type="text" hidden  name="variable5" value = {{variable1}}>
+			<input type="number" hidden name="amount" value = {{amount}}>
+			{% if credential.knet %}
+				<input type="button" value="PAY_KENT" id = "knet">
+			{% endif %}
+			{% if credential.mpgs %}
+				<input type="button" value="PAY_MPGS" id = "mpgs">
+			{% endif %}
+	</form>
 </body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+	function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+		    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		$.ajaxSetup({
+		    beforeSend: function(xhr, settings) {
+		        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+		            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+		        }
+		    }
+    });
+
+	var parameter = {
+		"variable1":"{{variable1}}",
+		"variable2":"{{variable2}}",
+		"variable3":"{{variable3}}",
+		"variable4":"{{variable4}}",
+		"variable5":"{{variable5}}",
+
+	}
+	console.log(parameter)
+  $("#knet").click(function(){
+  		$.ajax({
+	      url: "/knet/", 
+	      type:"POST", 	
+	      data:{"amount":"{{amount}}","parameter":JSON.stringify(parameter)},
+	      success: function(result){
+	      	$("body").html(result)
+	    	}
+		});
+    
+});
+   $("#mpgs").click(function(){
+   
+  		$.ajax({
+	      url: "/mpgs/", 
+	      type:"POST", 	
+	      data:{"amount":"{{amount}}","parameter":JSON.stringify(parameter)},
+	      success: function(result){
+	      	$("body").html(result)
+	    	}
+		});
+    
+  });
+});
+
+</script>
 </html>
 
 
