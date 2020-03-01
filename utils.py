@@ -1,7 +1,7 @@
 import httplib
 from binascii import hexlify, unhexlify
 from Crypto.Cipher import AES
-
+from .models import *
 
 def pad(data):
     length = 32 - (len(data) % 32)
@@ -29,6 +29,8 @@ def decrypt(cipherText, workingKey, iv):
 
 
 def checkout(encencryptedText):
+    credential_obj = Credential.objects.all()
+    
     conn = httplib.HTTPConnection("payment-api.eu-central-1.elasticbeanstalk.com")
     payload = "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n%s\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--" % encencryptedText
     headers = {

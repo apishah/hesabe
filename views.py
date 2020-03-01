@@ -10,7 +10,6 @@ from .utils import *
 from django.db import transaction as transaction_atomic
 import json
 import requests
-from django.views.decorators.csrf import csrf_exempt
 from .models import Credential
 from django.conf import settings
 

@@ -11,6 +11,7 @@ class Credential(TimeStampedModel):
 	merchant_code = models.IntegerField()
 	working_key = models.CharField(max_length=455)
 	iv = models.CharField(max_length=455)
+	accesscode=models.CharField(max_length=455)
 	payment_url = models.CharField(max_length=255)
 	success_url = models.CharField(max_length=255)
 	failure_url = models.CharField(max_length=255)
