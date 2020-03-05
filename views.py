@@ -40,7 +40,7 @@ def hesabe_payment(req,amount,paymentType,args):
 	        result = decrypt(checkoutToken,working_key , iv)
 	        response = json.loads(result)
 	        decryptToken = response['response']['data']
-	        url = credential_obj[0].payment_url
+	        url = "http://"+credential_obj[0].payment_url +"/api/payment"
 	        html = '''\
 	            <html>
 	            <head>

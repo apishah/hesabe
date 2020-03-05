@@ -30,14 +30,16 @@ def decrypt(cipherText, workingKey, iv):
 
 def checkout(encencryptedText):
     credential_obj = Credential.objects.all()
-    
-    conn = httplib.HTTPConnection("payment-api.eu-central-1.elasticbeanstalk.com")
+    v=str(credential_obj[0].payment_url)
+    accesscode = str(credential_obj[0].accesscode)
+    # conn = httplib.HTTPConnection(v)
+    conn = httplib.HTTPConnection("api.hesbstck.com")
     payload = "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n%s\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--" % encencryptedText
     headers = {
         'content-type': "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
-        'accesscode': "ab035967-3e92-4e07-9555-e7e4faf40a3f",
     }
-    conn.request("POST", "/api/checkout", payload, headers)
+    headers["accesscode"] = accesscode
+    conn.request("POST",'/api/checkout',payload, headers)
     res = conn.getresponse()
     data = res.read()
     return data.decode("utf-8")
