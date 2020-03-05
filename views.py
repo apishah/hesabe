@@ -16,18 +16,16 @@ from django.conf import settings
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def hesabe_payment(req,amount,paymentType,args):
+	
 	with transaction_atomic.atomic():
-		print("hisabe")
 		credential_obj = Credential.objects.all()
 		if(len(credential_obj) == 1):
-			args = json.loads(args)
+			
 			merchantCode = credential_obj[0].merchant_code
 			success_url = credential_obj[0].success_url
 			failure_url = credential_obj[0].failure_url
 			working_key = credential_obj[0].working_key
 			iv = credential_obj[0].iv
-			print(args.get("variable1"))
-			print(args)
 			variable1 = args.get("variable1",None)
 			variable2 = args.get("variable2",None)
 			variable3 = args.get("variable3",None)
@@ -40,7 +38,7 @@ def hesabe_payment(req,amount,paymentType,args):
 	        result = decrypt(checkoutToken,working_key , iv)
 	        response = json.loads(result)
 	        decryptToken = response['response']['data']
-	        url = "http://"+credential_obj[0].payment_url +"/api/payment"
+	        url = "http://"+ credential_obj[0].payment_url +"/api/payment"
 	        html = '''\
 	            <html>
 	            <head>
@@ -79,13 +77,18 @@ def payment(req):
 @csrf_exempt
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def knet_payment(req,**kwargs):
-	print(req.POST)
-	return hesabe_payment(req,req.POST.get('amount'), 1 ,req.POST.get('parameter'))
+	parameter = json.loads(req.POST.get('parameter'))
+	amount = int(parameter.get('amount'))
+	del parameter["amount"]
+	return hesabe_payment(req,amount, 1 ,parameter)
 
 
 def mpgs_payment(req,**kwargs):
-	return hesabe_payment(req,req.POST.get('amount'), 2 ,req.POST.get('parameter'))
-	
+	parameter = json.loads(req.POST.get('parameter'))
+	amount = parameter.get('amount')
+	del parameter["amount"]
+	return hesabe_payment(req,amount, 2 ,parameter)
+
 @csrf_exempt
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def response(request):

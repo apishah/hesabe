@@ -56,36 +56,50 @@ var csrftoken = getCookie('csrftoken');
 		        }
 		    }
     });
-
-	var parameter = {
+	
+	
+  $("#knet").click(function(){
+	var amount=$("input[name='amount']").val()
+  	var parameter = {
 		"variable1":"{{variable1}}",
 		"variable2":"{{variable2}}",
 		"variable3":"{{variable3}}",
 		"variable4":"{{variable4}}",
 		"variable5":"{{variable5}}",
-
+		"amount":amount
 	}
-	var amount=$("input[name='amount']").val()
-	console.log(parameter)
-  $("#knet").click(function(){
   		$.ajax({
 	      url: "/knet/", 
 	      type:"POST", 	
-	      data:{"amount":amount,"parameter":JSON.stringify(parameter)},
+	      data:{"parameter":JSON.stringify(parameter)},
 	      success: function(result){
 	      	$("body").html(result)
+	    	},
+	      error:function(err){
+	    		console.log(err)
 	    	}
 		});
     
-});
+	});
    $("#mpgs").click(function(){
-   
+   		var amount=$("input[name='amount']").val()
+  		var parameter = {
+		"variable1":"{{variable1}}",
+		"variable2":"{{variable2}}",
+		"variable3":"{{variable3}}",
+		"variable4":"{{variable4}}",
+		"variable5":"{{variable5}}",
+		"amount":amount
+		}
   		$.ajax({
 	      url: "/mpgs/", 
 	      type:"POST", 	
-	      data:{"amount":amount,"parameter":JSON.stringify(parameter)},
+	      data:{"parameter":JSON.stringify(parameter)},
 	      success: function(result){
 	      	$("body").html(result)
+	    	},
+	      error:function(err){
+	    		console.log(err)
 	    	}
 		});
     

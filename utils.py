@@ -30,13 +30,13 @@ def decrypt(cipherText, workingKey, iv):
 
 def checkout(encencryptedText):
     credential_obj = Credential.objects.all()
-    v=str(credential_obj[0].payment_url)
+    url=str(credential_obj[0].payment_url)
     accesscode = str(credential_obj[0].accesscode)
-    # conn = httplib.HTTPConnection(v)
-    conn = httplib.HTTPConnection("api.hesbstck.com")
+    conn = httplib.HTTPConnection(url)
     payload = "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n%s\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--" % encencryptedText
     headers = {
         'content-type': "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+        
     }
     headers["accesscode"] = accesscode
     conn.request("POST",'/api/checkout',payload, headers)
