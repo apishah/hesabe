@@ -9,13 +9,14 @@
 <body>
 	
 	
-		
+			<h5>Hesabe Payment gateway</h5>
 			<input type="text"  hidden name="variable1" value = {{variable1}}>
 			<input type="text" hidden  name="variable2" value = {{variable1}}>
 			<input type="text" hidden name="variable3" value = {{variable1}}>
 			<input type="text" hidden name="variable4" value = {{variable1}}>
 			<input type="text" hidden  name="variable5" value = {{variable1}}>
-			<input type="number" hidden name="amount" value = {{amount}}>
+			
+			<input type="number"  name="amount" placeholder="Enter amount">
 			{% if credential.knet %}
 				<input type="button" value="PAY_KENT" id = "knet">
 			{% endif %}
@@ -64,12 +65,13 @@ var csrftoken = getCookie('csrftoken');
 		"variable5":"{{variable5}}",
 
 	}
+	var amount=$("input[name='amount']").val()
 	console.log(parameter)
   $("#knet").click(function(){
   		$.ajax({
 	      url: "/knet/", 
 	      type:"POST", 	
-	      data:{"amount":"{{amount}}","parameter":JSON.stringify(parameter)},
+	      data:{"amount":amount,"parameter":JSON.stringify(parameter)},
 	      success: function(result){
 	      	$("body").html(result)
 	    	}
@@ -81,7 +83,7 @@ var csrftoken = getCookie('csrftoken');
   		$.ajax({
 	      url: "/mpgs/", 
 	      type:"POST", 	
-	      data:{"amount":"{{amount}}","parameter":JSON.stringify(parameter)},
+	      data:{"amount":amount,"parameter":JSON.stringify(parameter)},
 	      success: function(result){
 	      	$("body").html(result)
 	    	}
