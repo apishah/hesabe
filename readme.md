@@ -56,7 +56,7 @@ Merchant code:1351719857300
 Success Url:http://localhost:8000/response
 Failure Url:http://localhost:8000/response
 accesscode:345-5456-3434
-Payment Url:api.hesbstck.com(add without http or https)
+Payment Url:https://api.hesbstck.com/pay
 Working key:OGzgrmqyDEnlALQRNvzPv8NJ4BwWM019
 IV:WjnegZ76y3PO3dwZ
 Knet status:select enable/disable

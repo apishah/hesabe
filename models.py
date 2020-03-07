@@ -8,13 +8,13 @@ from django_extensions.db.models import TimeStampedModel
 
 class Credential(TimeStampedModel):
 	status_list = ((True,"Enable"),(False,"Disable"))
-	merchant_code = models.IntegerField()
-	working_key = models.CharField(max_length=455)
-	iv = models.CharField(max_length=455)
-	accesscode=models.CharField(max_length=455)
-	payment_url = models.CharField(max_length=255)
-	success_url = models.CharField(max_length=255)
-	failure_url = models.CharField(max_length=255)
+	merchant_code = models.IntegerField(verbose_name="Merchant Code")
+	working_key = models.CharField(max_length=455,verbose_name="Secret Key")
+	iv = models.CharField(max_length=455,verbose_name="IV Key")
+	accesscode = models.CharField(max_length=255,verbose_name="Access Code",default="0")
+	payment_url = models.CharField(max_length=255,verbose_name="Payment URL")
+	success_url = models.CharField(max_length=255, verbose_name="Success URL")
+	failure_url = models.CharField(max_length=255, verbose_name="Failure URL")
 	knet = models.BooleanField(
         max_length=50, choices=status_list, verbose_name="Knet Staus", default="Enabaled")
 	mpgs = models.BooleanField(
