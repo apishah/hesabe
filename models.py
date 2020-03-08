@@ -16,7 +16,7 @@ class Credential(TimeStampedModel):
 	success_url = models.CharField(max_length=255, verbose_name="Success URL")
 	failure_url = models.CharField(max_length=255, verbose_name="Failure URL")
 	knet = models.BooleanField(
-        max_length=50, choices=status_list, verbose_name="Knet Staus", default="Enabaled")
+        max_length=50, choices=status_list, verbose_name="KNET Staus", default="Enabaled")
 	mpgs = models.BooleanField(
-        max_length=50, choices=status_list, verbose_name="Mpgs Staus", default="Disabled")
+        max_length=50, choices=status_list, verbose_name="MPGS Staus", default="Disabled")
 
