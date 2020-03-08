@@ -8,7 +8,7 @@ from django_extensions.db.models import TimeStampedModel
 
 class Credential(TimeStampedModel):
 	status_list = ((True,"Enable"),(False,"Disable"))
-	merchant_code = models.IntegerField(verbose_name="Merchant Code")
+	merchant_code = models.IntegerField(max_length=45,verbose_name="Merchant Code")
 	working_key = models.CharField(max_length=455,verbose_name="Secret Key")
 	iv = models.CharField(max_length=455,verbose_name="IV Key")
 	accesscode = models.CharField(max_length=255,verbose_name="Access Code",default="0")
