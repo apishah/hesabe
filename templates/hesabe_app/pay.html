@@ -63,6 +63,10 @@ var csrftoken = getCookie('csrftoken');
 	
   $("#knet").click(function(){
 	var amount=$("input[name='amount']").val()
+	if(amount<=0){
+		$(".error").text("please enter valid amount")
+		return false
+	}
   	var parameter = {
 		"variable1":"{{variable1}}",
 		"variable2":"{{variable2}}",
@@ -88,6 +92,11 @@ var csrftoken = getCookie('csrftoken');
 	});
    $("#mpgs").click(function(){
    		var amount=$("input[name='amount']").val()
+   		if(amount<=0){
+			$(".error").text("please enter valid amount")
+			return false
+		}
+
   		var parameter = {
 		"variable1":"{{variable1}}",
 		"variable2":"{{variable2}}",
