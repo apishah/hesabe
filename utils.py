@@ -34,7 +34,7 @@ def checkout(encencryptedText):
     url=str(credential_obj[0].payment_url)
     accesscode = str(credential_obj[0].accesscode)
     payment_url = urlparse.urlparse(url).netloc
-    conn = httplib.HTTPConnection(payment_url)
+    conn = httplib.HTTPConnection('api.hesbstck.com')
     payload = "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n%s\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--" % encencryptedText
     headers = {
         'content-type': "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",

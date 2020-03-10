@@ -35,10 +35,11 @@ def hesabe_payment(req,amount,paymentType,args):
 				variable4 = args.get("variable4",None)
 				variable5 = args.get("variable5",None)
 				data = {'merchantCode' : merchantCode,"variable1":variable1,"variable2":variable2,"variable3":variable3,
-						"variable4":variable4,"variable5":variable5, "paymentType": paymentType,"version":0,'amount':amount,'responseUrl':success_url,'failureUrl':failure_url }
+						"variable4":variable4,"variable5":variable5, "paymentType": paymentType,"version":2.0,'amount':amount,'responseUrl':success_url,'failureUrl':failure_url }
 				encryptedText = encrypt(str(json.dumps(data)), working_key , iv)
 		        checkoutToken = checkout(encryptedText)
 		        result = decrypt(checkoutToken,working_key , iv)
+		 
 		        response = json.loads(result)
 		        decryptToken = response['response']['data']
 		        url =  credential_obj[0].payment_url +"/payment"
@@ -58,8 +59,10 @@ def hesabe_payment(req,amount,paymentType,args):
 		            '''
 		        fin = Template(html).safe_substitute(url=url,data=decryptToken)
 		        return django.http.HttpResponse(fin)
-		except:
-			raiseHttp404('Some internal error occoured')
+		except :
+			response = JsonResponse({"error": "Internal server error"})
+			response.status_code = 403 
+			return response
 
 
 
