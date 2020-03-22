@@ -43,5 +43,6 @@ def checkout(encencryptedText):
     headers["accesscode"] = accesscode
     conn.request("POST",urlparse(url).path+'/checkout',payload, headers)
     res = conn.getresponse()
+   
     data = res.read()
     return data.decode("utf-8")

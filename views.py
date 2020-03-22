@@ -18,7 +18,17 @@ from django.conf import settings
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def hesabe_payment(req,amount,paymentType,args):
-	
+	error_dict = {
+	0 :	'Invalid Response',
+	422 :'Invalid Input',
+	500 :'Invalid Token',
+	501 :'Invalid Merchant',
+	503 :'Invalid Merchant Service',
+	504 :'Invalid Merchant Login Credentials',
+	505 :'Invalid Payment Token',
+	506 :'Invalid Request Data',
+	507 :'Transaction Error'
+	}
 	with transaction_atomic.atomic():
 		credential_obj = Credential.objects.all()
 		try:
@@ -40,26 +50,30 @@ def hesabe_payment(req,amount,paymentType,args):
 				checkoutToken = checkout(encryptedText)
 				result = decrypt(checkoutToken,working_key , iv)
 				response = json.loads(result)
-				decryptToken = response['response']['data']
-				url =  credential_obj[0].payment_url +"/payment"
-				html = '''\
-		            <html>
-		            <head>
-		                <title>Sub-merchant checkout page</title>
-		                <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		            </head>
-		            <body>
-		            <form id="nonseamless" method="get" name="redirect" action='$url'>
-		                    <input type="hidden" id="data" name="data" value='$data'>
-		                    <script language='javascript'>document.redirect.submit();</script>
-		            </form>
-		            </body>
-		            </html>
-		            '''
-				fin = Template(html).safe_substitute(url=url,data=decryptToken)
-				return django.http.HttpResponse(fin)
-		except :
-			response = JsonResponse({"error": "Internal server error"})
+				
+				if response["status"]:
+					decryptToken = response['response']['data']
+					url =  credential_obj[0].payment_url +"/payment"
+					html = '''\
+			            <html>
+			            <head>
+			                <title>Sub-merchant checkout page</title>
+			                <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+			            </head>
+			            <body>
+			            <form id="nonseamless" method="get" name="redirect" action='$url'>
+			                    <input type="hidden" id="data" name="data" value='$data'>
+			                    <script language='javascript'>document.redirect.submit();</script>
+			            </form>
+			            </body>
+			            </html>
+			            '''
+					fin = Template(html).safe_substitute(url=url,data=decryptToken)
+					return django.http.HttpResponse(fin)
+				else:
+					raise Exception(error_dict[response["code"]])
+		except Exception as err:
+			response = JsonResponse({"error": str(err)})
 			response.status_code = 403 
 			return response
 
