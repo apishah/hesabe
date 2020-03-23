@@ -12,8 +12,8 @@ What things you need to install the software and how to install them
 
 
 ```
-python 2.7
-django >=1.11
+python 3.5
+django ==2.22
 ```
 
 ### Installing and configurations
