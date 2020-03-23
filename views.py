@@ -50,30 +50,37 @@ def hesabe_payment(req,amount,paymentType,args):
 				checkoutToken = checkout(encryptedText)
 				result = decrypt(checkoutToken,working_key , iv)
 				response = json.loads(result)
-				
-				if response["status"]:
-					decryptToken = response['response']['data']
-					url =  credential_obj[0].payment_url +"/payment"
-					html = '''\
-			            <html>
-			            <head>
-			                <title>Sub-merchant checkout page</title>
-			                <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-			            </head>
-			            <body>
-			            <form id="nonseamless" method="get" name="redirect" action='$url'>
-			                    <input type="hidden" id="data" name="data" value='$data'>
-			                    <script language='javascript'>document.redirect.submit();</script>
-			            </form>
-			            </body>
-			            </html>
-			            '''
-					fin = Template(html).safe_substitute(url=url,data=decryptToken)
-					return django.http.HttpResponse(fin)
-				else:
-					raise Exception(error_dict[response["code"]])
-		except Exception as err:
-			response = JsonResponse({"error": str(err)})
+				try:
+					
+					if response.get("status"):
+						decryptToken = response['response']['data']
+						url =  credential_obj[0].payment_url +"/payment"
+						html = '''\
+				            <html>
+				            <head>
+				                <title>Sub-merchant checkout page</title>
+				                <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+				            </head>
+				            <body>
+				            <form id="nonseamless" method="get" name="redirect" action='$url'>
+				                    <input type="hidden" id="data" name="data" value='$data'>
+				                    <script language='javascript'>document.redirect.submit();</script>
+				            </form>
+				            </body>
+				            </html>
+				            '''
+						fin = Template(html).safe_substitute(url=url,data=decryptToken)
+						return django.http.HttpResponse(fin)
+					elif response.get("status") == False :
+						raise Exception(error_dict.get(response.get("code")))
+					else:
+						raise Exception('Merchant is inactive')
+				except Exception as err:
+					response = JsonResponse({"error": str(err)})
+					response.status_code = 403 
+					return response
+		except Exception:
+			response = JsonResponse({"error": 'Internal Server Error'})
 			response.status_code = 403 
 			return response
 
