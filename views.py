@@ -33,7 +33,6 @@ def hesabe_payment(req,amount,paymentType,args):
 		credential_obj = Credential.objects.all()
 		try:
 			if(len(credential_obj) == 1):
-				
 				merchantCode = credential_obj[0].merchant_code
 				success_url = credential_obj[0].success_url
 				failure_url = credential_obj[0].failure_url
@@ -111,6 +110,7 @@ def payment(req):
 def knet_payment(req,**kwargs):
 	parameter = json.loads(req.POST.get('parameter'))
 	try:
+
 			amount = float(parameter.get('amount'))
 	except:
 		response = JsonResponse({"error": "Enter proper amount"})

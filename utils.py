@@ -38,7 +38,7 @@ def checkout(encencryptedText):
     conn = http.client.HTTPConnection('api.hesbstck.com')
     payload = "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n%s\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--" % encencryptedText
     headers = {
-        'content-type': "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+        'content-type': "application/json; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
     }
     headers["accesscode"] = accesscode
     conn.request("POST",urlparse(url).path+'/checkout',payload, headers)
