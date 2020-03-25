@@ -4,6 +4,7 @@ from binascii import hexlify, unhexlify
 from Crypto.Cipher import AES
 from .models import *
 from urllib.parse import urlparse
+import json
 
 def pad(data):
     length = 32 - (len(data) % 32)
@@ -36,7 +37,8 @@ def checkout(encencryptedText):
     accesscode = str(credential_obj[0].accesscode)
     payment_url = urlparse(url).netloc
     conn = http.client.HTTPConnection('api.hesbstck.com')
-    payload = "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n%s\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--" % encencryptedText
+    payload = json.dumps({"data":encencryptedText})
+  
     headers = {
         'content-type': "application/json; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
     }

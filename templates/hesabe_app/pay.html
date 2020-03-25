@@ -64,10 +64,20 @@ var csrftoken = getCookie('csrftoken');
   $("#knet").click(function(){
 	var amount=$("input[name='amount']").val()
 	if(amount<=0){
-		$(".error").text("please enter valid amount")
+		$(".error").text("Please enter valid amount")
 		return false
 	}
-  	var parameter = {
+	
+	else {
+		var a=String(amount).split(".")
+		if(a.length==2)
+		if(a[1].length>3){
+			$(".error").text("Please enter amount less than 4 decimal")
+			return false
+		}
+	}
+	 
+	var parameter = {
 		"variable1":"{{variable1}}",
 		"variable2":"{{variable2}}",
 		"variable3":"{{variable3}}",
@@ -95,6 +105,14 @@ var csrftoken = getCookie('csrftoken');
    		if(amount<=0){
 			$(".error").text("please enter valid amount")
 			return false
+		}
+		else {
+			var a=String(amount).split(".")
+			if(a.length==2)
+			if(a[1].length>3){
+				$(".error").text("Please enter amount less than 4 decimal")
+				return false
+			}
 		}
 
   		var parameter = {

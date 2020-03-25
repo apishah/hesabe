@@ -38,15 +38,18 @@ def hesabe_payment(req,amount,paymentType,args):
 				failure_url = credential_obj[0].failure_url
 				working_key = credential_obj[0].working_key
 				iv = credential_obj[0].iv
+				
 				variable1 = args.get("variable1",None)
 				variable2 = args.get("variable2",None)
 				variable3 = args.get("variable3",None)
 				variable4 = args.get("variable4",None)
 				variable5 = args.get("variable5",None)
+
 				data = {'merchantCode' : merchantCode,"variable1":variable1,"variable2":variable2,"variable3":variable3,
 						"variable4":variable4,"variable5":variable5, "paymentType": paymentType,"version":2.0,'amount':amount,'responseUrl':success_url,'failureUrl':failure_url }
 				encryptedText = encrypt(str(json.dumps(data)), working_key , iv)
 				checkoutToken = checkout(encryptedText)
+
 				result = decrypt(checkoutToken,working_key , iv)
 				response = json.loads(result)
 				try:
