@@ -19,7 +19,7 @@ django ==2.22
 ### Installing and configurations
 
 ```
-git clone 
+git clone https://github.com/prachi1326/hesabe
 
 ```
 
@@ -71,10 +71,10 @@ def payment(req):
 	payment_variables = {
 
 		"variable1" :  variable1 value,
-		"variable2" :  variable1 value,
-		"variable3" :  variable1 value,
-		"variable4" :  variable1 value,
-		"variable5" :  variable1 value,
+		"variable2" :  variable2 value,
+		"variable3" :  variable3 value,
+		"variable4" :  variable4 value,
+		"variable5" :  variable5 value,
 		"amount":amount value
 
 	}
