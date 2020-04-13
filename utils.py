@@ -36,7 +36,7 @@ def checkout(encencryptedText):
     url=str(credential_obj[0].payment_url)
     accesscode = str(credential_obj[0].accesscode)
     payment_url = urlparse(url).netloc
-    conn = http.client.HTTPConnection('api.hesbstck.com')
+    conn = http.client.HTTPConnection('sandbox.hesabe.com')
     payload = json.dumps({"data":encencryptedText})
 
     headers = {
