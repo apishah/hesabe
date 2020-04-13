@@ -4,8 +4,8 @@ Hesabe payment gateway application.
 
 ## Getting Started
 
-These instructions will help you to integrate hesabe payment gateway on your local machine for development and testing purposes. 
- 
+These instructions will help you to integrate hesabe payment gateway on your local machine for development and testing purposes.
+
 
 ### Installing and configurations
 
@@ -33,10 +33,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'hesabe_app',-->add this 
+    'hesabe_app',-->add this
 ]
 ```
-Step 3)Do the migrations 
+Step 3)Do the migrations
 
 ```
 python manage.py makemigrations
@@ -49,15 +49,15 @@ Step 4)Go to admin panel
 Step 5)Add  Configuration varaible values in admin panel.
 ```
 Example:
-Merchant code:1351719857300
-Success Url:http://localhost:8000/response
-Failure Url:http://localhost:8000/response
-accesscode:345-5456-3434
-Payment Url:https://api.hesbstck.com/pay
-Working key:OGzgrmqyDEnlALQRNvzPv8NJ4BwWM019
-IV:WjnegZ76y3PO3dwZ
-Knet status:select enable/disable
-mpgs status:select enable/disable
+Merchant code:      842217
+Success Url:        http://localhost:8000/response
+Failure Url:		http://localhost:8000/response
+accesscode:			c333729b-d060-4b74-a49d-7686a8353481
+Payment Url:		https://sandbox.hesabe.com/pay
+Working key:		PkW64zMe5NVdrlPVNnjo2Jy9nOb7v1Xg
+IV:					5NVdrlPVNnjo2Jy9
+Knet status:		select enable/disable
+mpgs status:		select enable/disable
 ```
 
 ### How to use this application.
