@@ -4,6 +4,7 @@ import django
 import socket    
 from string import Template
 from datetime import datetime
+import time
 from django.http import Http404, HttpResponseRedirect, HttpResponse,JsonResponse
 from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import csrf_exempt
@@ -44,12 +45,11 @@ def hesabe_payment(req,amount,paymentType,args):
 				variable3 = args.get("variable3",None)
 				variable4 = args.get("variable4",None)
 				variable5 = args.get("variable5",None)
-
-				data = {'merchantCode' : merchantCode,"variable1":variable1,"variable2":variable2,"variable3":variable3,
+				orderReferenceNumber = args.get("order_id",None)
+				data = {'merchantCode' : merchantCode,"orderReferenceNumber":orderReferenceNumber,"variable1":variable1,"variable2":variable2,"variable3":variable3,
 						"variable4":variable4,"variable5":variable5, "paymentType": paymentType,"version":2.0,'amount':amount,'responseUrl':success_url,'failureUrl':failure_url }
 				encryptedText = encrypt(str(json.dumps(data)), working_key , iv)
 				checkoutToken = checkout(encryptedText)
-
 				result = decrypt(checkoutToken,working_key,iv)
 				response = json.loads(result)
 				try:
@@ -94,9 +94,10 @@ def payment(req):
 	now = datetime.now()
 	current_time = now.strftime("%H:%M:%S")
 	hostname = socket.gethostname()    
-	IPAddr = socket.gethostbyname(hostname)    
+	IPAddr = socket.gethostbyname(hostname) 
+	# value of order_id should be Id of your order.    
 	payment_variables = {
-
+		"order_id"	: time.time(),
 		"variable1" : current_time,
 		"variable2" : None,
 		"variable3" : None,

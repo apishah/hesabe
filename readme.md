@@ -5,16 +5,7 @@ Hesabe payment gateway application.
 ## Getting Started
 
 These instructions will help you to integrate hesabe payment gateway on your local machine for development and testing purposes. 
-
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-
-```
-python 3.5
-django ==2.22
-```
+ 
 
 ### Installing and configurations
 
@@ -23,9 +14,15 @@ git clone https://github.com/prachi1326/hesabe
 
 ```
 
-Step 1) Add this application to your project.
+Install all the dependenices by this command.
 
-Step 2) Add this application to INSTALLED_APPS variable in settings.py
+```
+pip install -r hesabe_app/requirements.txt
+```
+
+Step 1) Add installed application to your project.
+
+Step 2) Add installed application to INSTALLED_APPS variable in settings.py
 
 For example
 ```
@@ -63,9 +60,11 @@ Knet status:select enable/disable
 mpgs status:select enable/disable
 ```
 
-### how to use this application.
+### How to use this application.
 
-create one function and add parameters as shown below.
+Create payment function with request parameter and pass amount and other optional parameteres as well as shown below.
+
+This payment function will render the pay.html file which has payment options such as knet/mpgs.
 ```
 def payment(req):
 	payment_variables = {
